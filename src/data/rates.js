@@ -1,0 +1,1 @@
+export default [{"id":18,"currency":"GBP","value":363.51,"didGrow":null,"createdAt":"2019-08-30T09:04:36.641Z","updatedAt":"2019-08-30T09:04:37.573Z","bankId":1},{"id":29,"currency":"EUR","value":330.19,"didGrow":null,"createdAt":"2019-08-30T09:04:36.642Z","updatedAt":"2019-08-30T09:04:37.584Z","bankId":1}]

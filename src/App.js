@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import articles from './data/articles'
+import sites from './data/sites'
+import categories from './data/categories'
+import rates from './data/rates'
+import weather from './data/weather'
+import day from './data/day'
 
-function App() {
+import Header from './components/Header/Header.js'
+import Aside from './components/Aside/Aside.js'
+import Articles from './components/Articles/Articles.js'
+
+export default function App () {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header categories={categories}
+              day={day}
+              weather={weather}
+              rates={rates} />
+      <div className="inline">
+        <Aside sites={sites} />
+        <main>
+          <Articles articles={articles} />
+        </main>
+      </div>
     </div>
-  );
+  )
 }
-
-export default App;
