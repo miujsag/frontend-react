@@ -8,7 +8,7 @@ function getToday () {
 
 export default function Day ({day}) {
   return (
-    <div>
+    <div className="calendar">
       <p>{getToday(new Date())}</p>
       <p>{day.name} névnapja</p>
       <p className="event">{day.holiday}</p>

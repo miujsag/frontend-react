@@ -8,12 +8,13 @@ aside {
   background: #0E1530;
   color: white;
   padding: 0 20px 0 15px;
+  transform: translateX(-100%);
   transition: transform .5s;
   overflow-y: auto;
 }
 
 aside.active {
-  transform: translateX(-100%);
+  transform: translateX(0);
 }
 
 .checkbox-list {
@@ -72,6 +73,14 @@ aside .rates {
   border-right: 0;
 }
 
+aside .rates {
+  flex-direction: column;
+}
+
+aside .rates p {
+  margin-top: 0;
+}
+
 aside .weather {
   width: 100%;
   border-right: 1px solid #ED4568;
@@ -114,6 +123,10 @@ aside .rates p {
     padding-top: 50px;
     transform: translate(-100%);
     text-align: center;
+  }
+
+  aside.active {
+    transform: translateX(-100%);
   }
 
   aside.mobile-active {

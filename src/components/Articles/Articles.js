@@ -87,12 +87,14 @@ function Article (article) {
   )
 }
 
-export default function Articles ({articles}) {
+export default function Articles ({articles, isSidebarOpen}) {
   const articleList = articles.map(Article)
 
   return (
-    <ul className="articles inline">
-      {articleList}
-    </ul>
+    <main className={isSidebarOpen ? '' : 'active'}>
+      <ul className="articles inline">
+        {articleList}
+      </ul>
+    </main>
   )
 }
