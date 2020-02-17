@@ -1,7 +1,4 @@
 import React from 'react'
-import Flatpickr from 'flatpickr'
-import { Hungarian } from 'flatpickr/dist/l10n/hu.js'
-import 'flatpickr/dist/flatpickr.min.css'
 import Day from '../widgets/Day/Day.js'
 import Weather from '../widgets/Weather/Weather.js'
 import Rates from '../widgets/Rates/Rates.js'
@@ -104,17 +101,7 @@ export default function Header ({categories, day, weather, rates, handleCheckbox
           </ul>
         </div>
         <form className="search-form inline" action="/kereses" method="GET">
-          <input type="search" name="search" value={search} onChange={handleInputChange} />
-          <Flatpickr
-            data-enable-time
-            value={from}
-            onChange={handleDateChange}
-          />
-          <Flatpickr
-            data-enable-time
-            value={to}
-            onChange={handleDateChange}
-          />
+          <input type="search" name="search" onChange={handleInputChange} />
           <button type="submit" name="submit-search">keresés</button>
         </form>
       </div>

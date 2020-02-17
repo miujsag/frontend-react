@@ -15,13 +15,11 @@ export default function SearchModal ({isMobileSearchOpen, toggleMobileSearch, fr
       </button>
       <h2>Keresés</h2>
       <div className="form-group">
-        <input type="text" name="search" required="" value={search} onChange={handleInputChange} />
+        <input type="text" name="search" required="" onChange={handleInputChange} />
       </div>
       <div className="form-group">
         <label>Dátum szerint</label>
         <div className="inline">
-          {/* <input type="text" className="date-input flatpickr-input" name="from" placeholder="Innentől" value="2020-02-09" required="" readOnly="readonly" />
-          <input type="text" className="date-input flatpickr-input" name="until" placeholder="Idáig" value="2020-02-16" required="" readOnly="readonly" /> */}
           <DatePicker
             selected={from}
             onChange={handleDateChange}

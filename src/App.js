@@ -44,19 +44,17 @@ export default class App extends React.Component {
     this.setState({checked: event.target.checked})
   }
 
-  handleDateChange (event) {
-    this.setState({from: event.target.value})
+  handleDateChange (date) {
+    this.setState({from: date})
   }
 
   handleInputChange (event) {
     const {name, target} = event
-    console.log({name, target})
+    
     this.setState({[name]: target})
   }
 
   toggleSidebar () {
-    console.log('toggle')
-    console.log(this.state.isSidebarOpen)
     this.setState({isSidebarOpen: !this.state.isSidebarOpen})
   }
 
@@ -70,7 +68,7 @@ export default class App extends React.Component {
 
   render () {
     const {articles, weather, rates, day, sites, categories, isSidebarOpen, isMobileMenuOpen, isMobileSearchOpen, from, to, search} = this.state
-    console.log({from, to })
+
     return (
       <div>
         <Header
