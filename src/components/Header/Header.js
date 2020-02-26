@@ -1,19 +1,12 @@
 import React from 'react'
+import {WidgetContext} from '../../context/WidgetContext'
 import Day from '../widgets/Day/Day.js'
 import Weather from '../widgets/Weather/Weather.js'
 import Rates from '../widgets/Rates/Rates.js'
-import Checkbox from '../ui/Checkbox/Checkbox.js'
+import Categories from '../Categories/Categories.js'
 import './Header.css'
 
-export default function Header ({categories, day, weather, rates, handleCheckboxChange, isMobileMenuOpen, from, to, search, handleInputChange, handleDateChange, toggleMobileMenu, toggleMobileSearch, toggleSidebar}) {
-  const categoryList = categories.map(category => {
-    return (
-      <li className="category" key={category.id}>
-        <Checkbox type={'category'} id={category.id}
-                  name={category.name} onChange={handleCheckboxChange} />
-      </li>
-    )
-  })
+export default function Header ({isMobileMenuOpen, handleInputChange, toggleMobileMenu, toggleMobileSearch, toggleSidebar}) {
   
   return (
     <header>
@@ -77,11 +70,17 @@ export default function Header ({categories, day, weather, rates, handleCheckbox
           </svg>
         </button>
         <div className="widgets inline mobile-hide">
-          <Day day={day} />
-          <div className="divider"></div>
-          <Weather weather={weather} />
-          <div className="divider"></div>
-          <Rates rates={rates} />
+          <WidgetContext.Consumer>
+            {context => (
+              <React.Fragment>
+                <Day day={context.state.day} />
+                <div className="divider"></div>
+                <Weather weather={context.state.weather} />
+                <div className="divider"></div>
+                <Rates rates={context.state.rates} />
+              </React.Fragment>
+            )}
+          </WidgetContext.Consumer>
         </div>
       </div>
       <div className="sub-header inline">
@@ -93,12 +92,7 @@ export default function Header ({categories, day, weather, rates, handleCheckbox
               <path fillRule="evenodd" clipRule="evenodd" d="M2.31092 0.492081L6.96631 5.23738L11.6217 0.492081L12.9663 1.86266L6.96631 7.97854L0.966309 1.86266L2.31092 0.492081Z" fill="white"></path>
             </svg>
           </button>
-          <ul className="categories inline">
-            <li>
-              <button type="button" className="toggle-categories">Összes</button>
-            </li>
-            {categoryList}
-          </ul>
+          <Categories />
         </div>
         <form className="search-form inline" action="/kereses" method="GET">
           <input type="search" name="search" onChange={handleInputChange} />

@@ -1,17 +1,12 @@
 import React from 'react';
 import articles from './data/articles'
-import sites from './data/sites'
-import categories from './data/categories'
-import rates from './data/rates'
-import weather from './data/weather'
-import day from './data/day'
-
-import {getCurrentDate, getLastWeeksDate} from './utils/date'
+import {CategoryProvider} from './context/CategoryContext'
+import {WidgetProvider} from './context/WidgetContext'
+import {SearchProvider} from './context/SearchContext'
 import Header from './components/Header/Header.js'
 import Aside from './components/Aside/Aside.js'
 import Articles from './components/Articles/Articles.js'
 import SearchModal from './components/SearchModal/SearchModal.js'
-
 
 export default class App extends React.Component {
   constructor (props) {
@@ -19,39 +14,14 @@ export default class App extends React.Component {
 
     this.state = {
       articles,
-      weather,
-      rates,
-      day,
-      sites: sites,
-      categories: categories,
       isSidebarOpen: true,
       isMobileMenuOpen: false,
       isMobileSearchOpen: false,
-      from: getLastWeeksDate(),
-      to: getCurrentDate(),
-      search: ''
     }
 
     this.toggleSidebar = this.toggleSidebar.bind(this)
     this.toggleMobileMenu = this.toggleMobileMenu.bind(this)
     this.toggleMobileSearch = this.toggleMobileSearch.bind(this)
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
-    this.handleDateChange = this.handleDateChange.bind(this)
-    this.handleInputChange = this.handleInputChange(this)
-  }
-
-  handleCheckboxChange (event) {
-    this.setState({checked: event.target.checked})
-  }
-
-  handleDateChange (date) {
-    this.setState({from: date})
-  }
-
-  handleInputChange (event) {
-    const {name, target} = event
-    
-    this.setState({[name]: target})
   }
 
   toggleSidebar () {
@@ -67,53 +37,40 @@ export default class App extends React.Component {
   }
 
   render () {
-    const {articles, weather, rates, day, sites, categories, isSidebarOpen, isMobileMenuOpen, isMobileSearchOpen, from, to, search} = this.state
+    const {articles, isSidebarOpen, isMobileMenuOpen, isMobileSearchOpen, from, to, search} = this.state
 
     return (
       <div>
-        <Header
-          categories={categories}
-          day={day}
-          weather={weather}
-          rates={rates}
-          search={search}
-          from={from}
-          to={from}
-          isMobileMenuOpen={isMobileMenuOpen}
-          isMobileSearchOpen={isMobileSearchOpen}
-          handleCheckboxChange={this.handleCheckboxChange}
-          handleInputChange={this.handleInputChange}
-          handleDateChange={this.handleDateChange}
-          toggleSidebar={this.toggleSidebar}
-          toggleMobileMenu={this.toggleMobileMenu}
-          toggleMobileSearch={this.toggleMobileSearch}
-        />
-        <div className="inline">
-          <Aside
-            categories={categories}
-            sites={sites}
-            day={day}
-            weather={weather}
-            rates={rates}
-            isMobileMenuOpen={isMobileMenuOpen}
-            isSidebarOpen={isSidebarOpen}
-            toggleMobileMenu={this.toggleMobileMenu}
-            handleCheckboxChange={this.handleCheckboxChange}
-          />
-          <Articles
-            articles={articles} 
-            isSidebarOpen={isSidebarOpen}
-          />
-        </div>
-        <SearchModal
-          from={from}
-          to={to}
-          search={search}
-          isMobileSearchOpen={isMobileSearchOpen}
-          toggleMobileSearch={this.toggleMobileSearch}
-          handleInputChange={this.handleInputChange}
-          handleDateChange={this.handleDateChange}
-        />
+        <WidgetProvider>
+          <CategoryProvider>
+            <SearchProvider>
+              <Header
+                isMobileMenuOpen={isMobileMenuOpen}
+                isMobileSearchOpen={isMobileSearchOpen}
+                handleInputChange={this.handleInputChange}
+                handleDateChange={this.handleDateChange}
+                toggleSidebar={this.toggleSidebar}
+                toggleMobileMenu={this.toggleMobileMenu}
+                toggleMobileSearch={this.toggleMobileSearch}
+              />
+              <SearchModal
+                isMobileSearchOpen={isMobileSearchOpen}
+                toggleMobileSearch={this.toggleMobileSearch}
+              />
+            </SearchProvider>
+            <div className="inline">
+              <Aside
+                isMobileMenuOpen={isMobileMenuOpen}
+                isSidebarOpen={isSidebarOpen}
+                toggleMobileMenu={this.toggleMobileMenu}
+              />
+              <Articles
+                articles={articles} 
+                isSidebarOpen={isSidebarOpen}
+              />
+            </div>
+          </CategoryProvider>
+        </WidgetProvider>
       </div>
     )
   }
