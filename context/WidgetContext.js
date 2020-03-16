@@ -1,13 +1,6 @@
 import React from "react";
-import day from "../data/day";
-import rates from "../data/rates";
-import weather from "../data/weather";
 
-export const WidgetContext = React.createContext({
-  day,
-  rates,
-  weather
-});
+export const WidgetContext = React.createContext({});
 
 export function WidgetProvider({ day, weather, rates, children }) {
   return (
