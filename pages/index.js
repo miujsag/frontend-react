@@ -1,6 +1,5 @@
 import React from "react";
 import fetch from "isomorphic-unfetch";
-import articles from "../data/articles";
 import "./index.css";
 import { SiteProvider } from "../context/SiteContext";
 import { CategoryProvider } from "../context/CategoryContext";
