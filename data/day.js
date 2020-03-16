@@ -1,1 +1,0 @@
-export default {"id":242,"date":"08/30","name":"Rózsa","holiday":"","createdAt":"2019-08-10T16:37:02.376Z","updatedAt":"2019-08-10T16:37:02.376Z"}

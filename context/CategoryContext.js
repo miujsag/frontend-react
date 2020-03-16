@@ -1,22 +1,10 @@
 import React from "react";
-import categories from "../data/categories";
 
 export const CategoryContext = React.createContext();
 
 export class CategoryProvider extends React.Component {
   state = {
     categories: []
-  };
-
-  loadData = () => {
-    const modifiedCategories = categories.map(category => {
-      category.checked = true;
-
-      return category;
-    });
-    this.setState({
-      categories: modifiedCategories
-    });
   };
 
   handleChange = event => {
@@ -49,10 +37,20 @@ export class CategoryProvider extends React.Component {
   };
 
   componentDidMount() {
-    this.loadData();
+    const { categories } = this.props;
+    if (categories && categories.length > 0) {
+      const categoriesWithChecked = categories.map(function(category) {
+        category.checked = true;
+
+        return category;
+      });
+
+      this.setState({ categories: categoriesWithChecked });
+    }
   }
 
   render() {
+    console.log({ context: this.context });
     return (
       <CategoryContext.Provider
         value={{

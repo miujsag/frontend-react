@@ -1,62 +1,62 @@
-import React from 'react'
-import sites from '../data/sites'
+import React from "react";
 
-export const SiteContext = React.createContext()
+export const SiteContext = React.createContext();
 
 export class SiteProvider extends React.Component {
   state = {
     sites: []
-  }
+  };
 
-  loadData = () => {
-    const modifiedSites = sites.map(site => {
-      site.checked = site.state === 'selected' ? true : false
+  handleChange = event => {
+    const siteId = event.target.id.split("-")[1];
+    const modifiedSites = [...this.state.sites];
+    const siteIndex = modifiedSites.findIndex(
+      site => site.id === parseInt(siteId)
+    );
 
-      return site
-    })
-    
-    this.setState({
-      sites: modifiedSites
-    })
-  }
+    modifiedSites[siteIndex].checked = !modifiedSites[siteIndex].checked;
 
-  handleChange = (event) => {
-    const siteId = event.target.id.split('-')[1]
-    const modifiedSites = [...this.state.sites]
-    const siteIndex = modifiedSites.findIndex(site => site.id === parseInt(siteId))
-
-    modifiedSites[siteIndex].checked = !modifiedSites[siteIndex].checked
-    
-    this.setState({sites: modifiedSites})
-  }
+    this.setState({ sites: modifiedSites });
+  };
 
   toggleAll = () => {
-    console.log('toggleAll')
-    const {sites} = this.state
-    const isAllChecked = sites.every(site => site.checked)
+    console.log("toggleAll");
+    const { sites } = this.state;
+    const isAllChecked = sites.every(site => site.checked);
     const toggledSites = this.state.sites.map(site => ({
       ...site,
       checked: !isAllChecked
-    }))
+    }));
 
     this.setState({
       sites: toggledSites
-    })
+    });
+  };
+
+  componentDidMount() {
+    const { sites } = this.props;
+    if (sites && sites.length > 0) {
+      const sitesWithChecked = sites.map(function(site) {
+        site.checked = true;
+
+        return site;
+      });
+
+      this.setState({ sites: sitesWithChecked });
+    }
   }
 
-  componentDidMount () {
-    this.loadData()
-  }
-
-  render () {
+  render() {
     return (
-      <SiteContext.Provider value={{
-        state: this.state,
-        handleChange: this.handleChange,
-        toggleAll: this.toggleAll
-      }}>
+      <SiteContext.Provider
+        value={{
+          state: this.state,
+          handleChange: this.handleChange,
+          toggleAll: this.toggleAll
+        }}
+      >
         {this.props.children}
       </SiteContext.Provider>
-    )
+    );
   }
 }
