@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-export default function ReadTimeIcon () {
+export default function ReadTimeIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +10,7 @@ export default function ReadTimeIcon () {
       viewBox="0 0 14 14"
     >
       <path fill="#fff" d="M0 0H14V14H0z"></path>
-      <g clip-path="url(#clip0)">
+      <g clipPath="url(#clip0)">
         <path
           fill="#E8EAF1"
           fillRule="evenodd"
@@ -100,5 +100,5 @@ export default function ReadTimeIcon () {
         </clipPath>
       </defs>
     </svg>
-  )
+  );
 }
