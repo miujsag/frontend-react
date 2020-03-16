@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "@zeit/next-css": "^1.0.1",
     "date-fns": "^1.30.1",
+    "isomorphic-unfetch": "^3.0.0",
     "next": "^9.3.0",
     "react": "^16.12.0",
     "react-datepicker": "^2.12.1",
@@ -18,7 +19,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "export": "next build && next export"
   },
   "eslintConfig": {
     "extends": "react-app"
