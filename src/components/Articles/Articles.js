@@ -9,6 +9,7 @@ import {
   differenceInMonths
 } from 'date-fns'
 import hu from 'date-fns/locale/hu'
+import ReadTimeIcon from '../svg/ReadTimeIcon'
 import './Articles.css'
 
 function truncate (text) {
@@ -79,9 +80,13 @@ function Article (article) {
         }
       </div>
       <footer>
-        <div className="estimated-read-time">
-          { convertToMinutes(article.estimatedReadTime) }
-        </div>
+        {
+          article.estimatedReadTime ? (
+            <div className="estimated-read-time">
+              <ReadTimeIcon /> {convertToMinutes(article.estimatedReadTime)}
+          </div>
+          ) : ''
+        }
       </footer>
     </li>
   )
