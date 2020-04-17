@@ -1,33 +1,42 @@
-import React from 'react'
-import Checkbox from '../ui/Checkbox/Checkbox.js'
-import {SiteContext} from '../../context/SiteContext'
-import './Sites.css'
+import React from "react";
+import Checkbox from "../ui/Checkbox/Checkbox.js";
+import { OptionContext } from "../../context/OptionContext";
+import "./Sites.css";
 
-function SiteList (sites, handleChange) {
+function SiteList(sites, handleChange) {
   return sites.map(site => {
     return (
       <li className="site" key={site.id}>
-        <Checkbox type={'site'} id={site.id}
-                  name={site.name} onChange={handleChange}
-                  checked={site.checked}
+        <Checkbox
+          label={site.name}
+          value={site.id}
+          name="sites"
+          onChange={handleChange}
+          checked={site.checked}
         />
       </li>
-    )
-  })
+    );
+  });
 }
 
-export default function Sites () {
+export default function Sites() {
   return (
-    <SiteContext.Consumer>
+    <OptionContext.Consumer>
       {context => (
         <ul className="sites checkbox-list">
           <li>
-            <button type="button" className="toggle-sites"
-                    onClick={context.toggleAll}>Összes</button>
+            <button
+              type="button"
+              className="toggle-sites"
+              value="sites"
+              onClick={context.toggleAll}
+            >
+              Összes
+            </button>
           </li>
           {SiteList(context.state.sites, context.handleChange)}
         </ul>
       )}
-    </SiteContext.Consumer>
-  )
+    </OptionContext.Consumer>
+  );
 }

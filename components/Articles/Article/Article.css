@@ -1,0 +1,148 @@
+.article {
+  position: relative;
+  height: auto;
+  min-height: 330px;
+  background: white;
+  border-radius: 5px;
+  padding: 0 20px;
+  -webkit-box-shadow: 1px 1px 5px 0px rgba(102, 102, 102, 0.5);
+  -moz-box-shadow: 1px 1px 5px 0px rgba(102, 102, 102, 0.5);
+  box-shadow: 1px 1px 5px 0px rgba(102, 102, 102, 0.5);
+}
+
+.article header,
+.article footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+
+  font-size: 13px;
+}
+
+.article-body {
+  height: 250px;
+  overflow: hidden;
+  padding-top: 15px;
+}
+
+.article h2,
+.article p {
+  line-height: 1.5;
+}
+
+.article h2 {
+  margin-bottom: 10px;
+}
+
+.article h2 a {
+  color: #264be5;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.article h2 a:visited {
+  color: #132054;
+}
+
+.article p {
+  font-size: 14px;
+}
+
+.estimated-read-time {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.estimated-read-time svg {
+  margin-right: 5px;
+}
+
+.article img {
+  height: 15px;
+  width: auto;
+}
+
+.article .highlight em {
+  background: #ed4568;
+  color: white;
+  font-weight: bold;
+  padding: 0 2px;
+}
+
+.article .logo-hvg {
+  height: 18px;
+}
+
+.article .logo-magyar-idok {
+  height: 23px;
+}
+
+.article .logo-24 {
+  height: 16px;
+}
+
+.article .logo-vs {
+  height: 30px;
+}
+
+.article .logo-index {
+  height: 13px;
+}
+
+.article .logo-atlatszo {
+  height: 36px;
+}
+
+.article .logo-mandiner {
+  height: 13px;
+}
+
+.article .logo-magyar-nemzet {
+  height: 22px;
+}
+
+.article .logo-origo {
+  height: 20px;
+}
+
+.article .logo-magyar-narancs {
+  height: 28px;
+}
+
+.article .logo-888 {
+  height: 20px;
+}
+
+.article .logo-168-ora {
+  height: 26px;
+}
+
+.article .logo-alfahir {
+  height: 30px;
+}
+
+.article .logo-nyugat {
+  height: 20px;
+}
+
+.article .logo-pestisracok {
+  height: 40px;
+}
+
+.article .logo-merce {
+  height: 25px;
+}
+
+@media (max-width: 360px) {
+  .article,
+  .article-body {
+    height: auto;
+    min-height: auto;
+  }
+
+  .article-body {
+    padding-top: 10px;
+  }
+}

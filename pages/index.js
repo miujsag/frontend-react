@@ -1,8 +1,7 @@
 import React from "react";
 import fetch from "isomorphic-unfetch";
 import "./index.css";
-import { SiteProvider } from "../context/SiteContext";
-import { CategoryProvider } from "../context/CategoryContext";
+import { OptionContext, OptionProvider } from "../context/OptionContext";
 import { WidgetProvider } from "../context/WidgetContext";
 import { SearchProvider } from "../context/SearchContext";
 import Header from "../components/Header/Header.js";
@@ -14,27 +13,34 @@ export default function Index({ sites, categories, weather, rates, day }) {
   return (
     <div>
       <WidgetProvider weather={weather} rates={rates} day={day}>
-        <CategoryProvider categories={categories}>
+        <OptionProvider categories={categories} sites={sites}>
           <SearchProvider>
             <Header />
             <SearchModal />
           </SearchProvider>
           <div className="inline">
-            <SiteProvider sites={sites}>
-              <Aside />
-            </SiteProvider>
-            <Articles />
+            <Aside />
+            <OptionContext.Consumer>
+              {context => (
+                <Articles
+                  context={context}
+                  categories={context.categories}
+                  sites={context.sites}
+                />
+              )}
+            </OptionContext.Consumer>
           </div>
-        </CategoryProvider>
+        </OptionProvider>
       </WidgetProvider>
     </div>
   );
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
+  console.log("get init");
   const response = await fetch(`http://localhost:4000/api/`);
   const props = await response.json();
-
+  console.log({ props });
   return {
     props
   };

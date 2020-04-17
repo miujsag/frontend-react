@@ -1,33 +1,42 @@
-import React from 'react'
-import Checkbox from '../ui/Checkbox/Checkbox.js'
-import {CategoryContext} from '../../context/CategoryContext'
-import './Categories.css'
+import React from "react";
+import Checkbox from "../ui/Checkbox/Checkbox.js";
+import { OptionContext } from "../../context/OptionContext";
+import "./Categories.css";
 
-function CategoryList (categories, handleChange) {
-  console.log({categories, handleChange})
+function CategoryList(categories, handleChange) {
   return categories.map(category => {
     return (
       <li className="category" key={category.id}>
-        <Checkbox type={'category'} id={category.id}
-                  name={category.name} onChange={handleChange}
-                  checked={category.checked} />
+        <Checkbox
+          label={category.name}
+          value={category.id}
+          name="categories"
+          onChange={handleChange}
+          checked={category.checked}
+        />
       </li>
-    )
-  })
+    );
+  });
 }
 
-export default function Categories () {
+export default function Categories() {
   return (
-    <CategoryContext.Consumer>
+    <OptionContext.Consumer>
       {context => (
         <ul className="categories inline">
           <li>
-            <button type="button" className="toggle-categories"
-                    onClick={context.toggleAll}>Összes</button>
+            <button
+              type="button"
+              className="toggle-categories"
+              value="categories"
+              onClick={context.toggleAll}
+            >
+              Összes
+            </button>
           </li>
           {CategoryList(context.state.categories, context.handleChange)}
         </ul>
       )}
-    </CategoryContext.Consumer>
-  )
+    </OptionContext.Consumer>
+  );
 }

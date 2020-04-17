@@ -1,104 +1,119 @@
 import React from "react";
-import {
-  format,
-  distanceInWordsStrict,
-  getMinutes,
-  differenceInHours,
-  differenceInDays,
-  isYesterday,
-  differenceInMonths
-} from "date-fns";
-import hu from "date-fns/locale/hu";
-import ReadTimeIcon from "../svg/ReadTimeIcon";
+import fetch from "isomorphic-unfetch";
+import Article from "./Article/Article";
 import "./Articles.css";
 
-function truncate(text) {
-  return !text || text.length < 230 ? text : text.substring(0, 230) + "...";
-}
+export default class Articles extends React.Component {
+  state = {
+    articles: [],
+    isError: false,
+    isLoading: false
+  };
 
-function convertToMinutes(time) {
-  if (!time) return "";
-
-  const timeToMinutes = getMinutes(time);
-
-  if (timeToMinutes === 0) return "kevesebb, mint egy perc";
-
-  return `${timeToMinutes} perc`;
-}
-
-function formatDatetime(time) {
-  if (!time) return "";
-
-  if (differenceInMonths(new Date(), time) > 0) {
-    return format(time, "YYYY MMMM DD", { locale: hu });
-  } else if (isYesterday(time) || differenceInDays(new Date(), time) > 0) {
-    return format(time, "MMMM DD", { locale: hu });
-  } else if (differenceInHours(new Date(), time) > 0) {
-    return format(time, "HH:mm", { locale: hu });
-  } else {
-    return distanceInWordsStrict(new Date(), time, { locale: hu });
+  getCheckedIds(options) {
+    return options.filter(option => option.checked).map(option => option.id);
   }
-}
 
-function toISOString(datetime) {
-  return new Date(datetime).toISOString();
-}
+  getLastArticlesDateTime() {
+    const { articles } = this.state;
 
-function renderHighlights(highlights) {
-  if (highlights instanceof Array) {
-    return highlights.map(highlight => (
-      <p className="highlight">{truncate(highlight)}</p>
-    ));
+    if (articles && articles.length > 1) {
+      const lastArticle = articles[articles.length - 1];
+
+      return lastArticle.publishedAt;
+    } else {
+      return new Date();
+    }
   }
-}
 
-function renderDescription(description) {
-  return <p>{description}</p>;
-}
+  getArticles = async (categories, sites, isLoadMore = false) => {
+    this.setState({
+      isLoading: true
+    });
+    console.log("getarticles", isLoadMore);
+    const categoryIds = this.getCheckedIds(categories);
+    const siteIds = this.getCheckedIds(sites);
+    const lastArticlesDateTime = this.getLastArticlesDateTime();
 
-function Article(article) {
-  return (
-    <li className="article" key={article.id}>
-      <header className="inline">
-        <time dateTime={toISOString(article.publishedAt)}>
-          {formatDatetime(article.publishedAt)}
-        </time>
-        <img
-          className={`logo-${article.site.slug}`}
-          src={`../../images/sites/${article.site.slug}.png`}
-          alt={`${article.site.name} logó`}
-        />
-      </header>
-      <div className="article-body">
-        <h2>
-          <a href={article.url} target="_blank" rel="noopener noreferrer">
-            {article.title}
-          </a>
-        </h2>
-        {article.highlights
-          ? renderHighlights(article.highlights)
-          : renderDescription(article.description)}
-      </div>
-      <footer>
-        {article.estimatedReadTime ? (
-          <div className="estimated-read-time">
-            <ReadTimeIcon /> {convertToMinutes(article.estimatedReadTime)}
+    const until = isLoadMore ? lastArticlesDateTime : "";
+
+    const response = await fetch(
+      `http://localhost:4000/api/articles?categories=${categoryIds.join(
+        ","
+      )}&sites=${siteIds.join(",")}&until=${until}`
+    );
+    if (response.status === 200) {
+      this.setState({
+        isError: false
+      });
+
+      const { articles, isMore } = await response.json();
+      console.log(articles[0]);
+      if (isLoadMore) {
+        const oldArticles = [...this.state.articles];
+        this.setState({
+          isMore,
+          articles: [...oldArticles, ...articles]
+        });
+      } else {
+        this.setState({
+          articles,
+          isMore
+        });
+      }
+    } else {
+      this.setState({
+        isError: true
+      });
+    }
+
+    this.setState({
+      isLoading: false
+    });
+  };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps === this.props) {
+      return;
+    }
+
+    if (this.props.context.state) {
+      const { categories, sites } = this.props.context.state;
+
+      if (categories && categories.length) {
+        this.getArticles(categories, sites);
+      }
+    }
+  }
+
+  render() {
+    const { articles, isMore } = this.state;
+
+    const articleList =
+      articles && articles.length > 1 ? this.state.articles.map(Article) : [];
+
+    return (
+      <main className="">
+        <ul className="articles inline">{articleList}</ul>
+        {isMore ? (
+          <div className="load-more">
+            <button
+              type="button"
+              onClick={() =>
+                this.getArticles(
+                  this.props.context.state.categories,
+                  this.props.context.state.sites,
+                  true
+                )
+              }
+            >
+              Még több cikk
+            </button>
           </div>
         ) : (
           ""
         )}
-      </footer>
-    </li>
-  );
-}
-
-export default function Articles({ articles, isSidebarOpen }) {
-  articles = articles && articles.length > 1 ? articles : [];
-  const articleList = articles.map(Article);
-
-  return (
-    <main className={isSidebarOpen ? "" : "active"}>
-      <ul className="articles inline">{articleList}</ul>
-    </main>
-  );
+      </main>
+    );
+  }
 }
