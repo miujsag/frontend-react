@@ -6,7 +6,7 @@ import {
   differenceInHours,
   differenceInDays,
   isYesterday,
-  differenceInMonths
+  differenceInMonths,
 } from "date-fns";
 import hu from "date-fns/locale/hu";
 import ReadTimeIcon from "../../svg/ReadTimeIcon";
@@ -46,7 +46,7 @@ function toISOString(datetime) {
 
 function renderHighlights(highlights) {
   if (highlights instanceof Array) {
-    return highlights.map(highlight => (
+    return highlights.map((highlight) => (
       <p className="highlight">{truncate(highlight)}</p>
     ));
   }
@@ -70,6 +70,7 @@ export default function Article(article) {
         />
       </header>
       <div className="article-body">
+        {/* <img class="cover" src={article.image} /> */}
         <h2>
           <a href={article.url} target="_blank" rel="noopener noreferrer">
             {article.title}

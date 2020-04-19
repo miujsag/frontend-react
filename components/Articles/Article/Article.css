@@ -64,6 +64,11 @@
   width: auto;
 }
 
+.article .cover {
+  width: 100%;
+  height: auto;
+}
+
 .article .highlight em {
   background: #ed4568;
   color: white;
