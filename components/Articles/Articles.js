@@ -2,16 +2,21 @@ import React from "react";
 import fetch from "isomorphic-unfetch";
 import Article from "./Article/Article";
 import "./Articles.css";
+import getConfig from "next/config";
+
+const { publicRuntimeConfig } = getConfig();
 
 export default class Articles extends React.Component {
   state = {
     articles: [],
     isError: false,
-    isLoading: false
+    isLoading: false,
   };
 
   getCheckedIds(options) {
-    return options.filter(option => option.checked).map(option => option.id);
+    return options
+      .filter((option) => option.checked)
+      .map((option) => option.id);
   }
 
   getLastArticlesDateTime() {
@@ -28,9 +33,9 @@ export default class Articles extends React.Component {
 
   getArticles = async (categories, sites, isLoadMore = false) => {
     this.setState({
-      isLoading: true
+      isLoading: true,
     });
-    console.log("getarticles", isLoadMore);
+
     const categoryIds = this.getCheckedIds(categories);
     const siteIds = this.getCheckedIds(sites);
     const lastArticlesDateTime = this.getLastArticlesDateTime();
@@ -38,37 +43,37 @@ export default class Articles extends React.Component {
     const until = isLoadMore ? lastArticlesDateTime : "";
 
     const response = await fetch(
-      `http://localhost:4000/api/articles?categories=${categoryIds.join(
+      `${publicRuntimeConfig.API}/articles?categories=${categoryIds.join(
         ","
       )}&sites=${siteIds.join(",")}&until=${until}`
     );
     if (response.status === 200) {
       this.setState({
-        isError: false
+        isError: false,
       });
 
       const { articles, isMore } = await response.json();
-      console.log(articles[0]);
+
       if (isLoadMore) {
         const oldArticles = [...this.state.articles];
         this.setState({
           isMore,
-          articles: [...oldArticles, ...articles]
+          articles: [...oldArticles, ...articles],
         });
       } else {
         this.setState({
           articles,
-          isMore
+          isMore,
         });
       }
     } else {
       this.setState({
-        isError: true
+        isError: true,
       });
     }
 
     this.setState({
-      isLoading: false
+      isLoading: false,
     });
   };
 

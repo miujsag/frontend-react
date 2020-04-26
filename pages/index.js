@@ -9,6 +9,9 @@ import Header from "../components/Header/Header.js";
 import Aside from "../components/Aside/Aside.js";
 import Articles from "../components/Articles/Articles.js";
 import SearchModal from "../components/SearchModal/SearchModal.js";
+import getConfig from "next/config";
+
+const { publicRuntimeConfig } = getConfig();
 
 export default function Index({ sites, categories, weather, rates, day }) {
   return (
@@ -39,7 +42,7 @@ export default function Index({ sites, categories, weather, rates, day }) {
 
 export async function getStaticProps() {
   console.log("get init");
-  const response = await fetch(`http://localhost:4000/api/`);
+  const response = await fetch(publicRuntimeConfig.API);
   const props = await response.json();
   console.log({ props });
   return {
