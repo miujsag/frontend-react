@@ -11,7 +11,8 @@ export default function Header({
   handleInputChange,
   toggleMobileMenu,
   toggleMobileSearch,
-  toggleSidebar
+  toggleSidebar,
+  isSearchPage,
 }) {
   return (
     <header>
@@ -136,7 +137,7 @@ export default function Header({
         </button>
         <div className="widgets inline mobile-hide">
           <WidgetContext.Consumer>
-            {context => (
+            {(context) => (
               <React.Fragment>
                 <Day day={context.day} />
                 <div className="divider"></div>
@@ -174,12 +175,18 @@ export default function Header({
           </button>
           <Categories />
         </div>
-        <form className="search-form inline" action="/kereses" method="GET">
-          <input type="search" name="search" onChange={handleInputChange} />
-          <button type="submit" name="submit-search">
-            keresés
-          </button>
-        </form>
+        {isSearchPage ? (
+          ""
+        ) : (
+          <form
+            className="header-search-form inline"
+            action="/kereses"
+            method="GET"
+          >
+            <input type="search" name="query" onChange={handleInputChange} />
+            <button type="submit">keresés</button>
+          </form>
+        )}
       </div>
     </header>
   );

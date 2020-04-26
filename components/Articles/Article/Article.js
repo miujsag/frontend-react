@@ -70,7 +70,7 @@ export default function Article(article) {
         />
       </header>
       <div className="article-body">
-        {/* <img class="cover" src={article.image} /> */}
+        {/*  <img className="cover" src={article.image} /> */}
         <h2>
           <a href={article.url} target="_blank" rel="noopener noreferrer">
             {article.title}

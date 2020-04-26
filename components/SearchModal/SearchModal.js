@@ -1,16 +1,19 @@
-import React from 'react'
-import DatePicker from 'react-datepicker'
-import "react-datepicker/dist/react-datepicker.css"
-import {SearchContext} from '../../context/SearchContext'
-import './SearchModal.css'
+import React from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "./SearchModal.css";
 
-export default function SearchModal ({isMobileSearchOpen, toggleMobileSearch}) {
+export default function SearchModal({
+  isMobileSearchOpen,
+  toggleMobileSearch,
+}) {
   return (
-    <SearchContext.Consumer>
-      {
-        context => (
-          <form className={`search-modal ${isMobileSearchOpen ? 'active' : ''}`} action="/kereses" method="GET">
-            <button type="button" className="search-close"
+    <form
+      className={`search-modal ${isMobileSearchOpen ? "active" : ""}`}
+      action="/kereses"
+      method="GET"
+    >
+      {/* <button type="button" className="search-close"
                     name="close-search" onClick={toggleMobileSearch}>
               <svg width="26" height="25" viewBox="0 0 26 25" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd" d="M7.05217 5.96879C7.44269 5.57827 8.07586 5.57827 8.46638 5.96879L19.0314 16.5338C19.4219 16.9243 19.4219 17.5575 19.0314 17.948L18.9482 18.0312C18.5577 18.4217 17.9245 18.4217 17.534 18.0312L6.96898 7.4662C6.57846 7.07567 6.57846 6.44251 6.96898 6.05198L7.05217 5.96879Z"></path>
@@ -43,10 +46,7 @@ export default function SearchModal ({isMobileSearchOpen, toggleMobileSearch}) {
                 />
               </div>
             </div>
-            <button type="submit" name="submit-search">hírek keresése</button>
-          </form>
-        )
-      }
-    </SearchContext.Consumer>
-  )
+            <button type="submit" name="submit-search">hírek keresése</button> */}
+    </form>
+  );
 }

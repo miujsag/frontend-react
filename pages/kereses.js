@@ -11,17 +11,17 @@ import getConfig from "next/config";
 
 const { publicRuntimeConfig } = getConfig();
 
-export default function Index({ sites, categories, weather, rates, day }) {
+export default function Search({ sites, categories, weather, rates, day }) {
   return (
     <Layout>
       <WidgetProvider weather={weather} rates={rates} day={day}>
         <OptionProvider categories={categories} sites={sites}>
-          <Header />
+          <Header isSearchPage={true} />
           <SearchModal />
           <div className="inline">
             <Aside />
             <OptionContext.Consumer>
-              {(context) => <Main {...context} />}
+              {(context) => <Main {...context} isSearch={true} />}
             </OptionContext.Consumer>
           </div>
         </OptionProvider>

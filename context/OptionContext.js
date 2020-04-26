@@ -1,5 +1,5 @@
 import React from "react";
-import { getCookie, setCookie } from "../utils/cookie";
+import { getCookie, setCookie, cookieListToArray } from "../utils/cookie";
 
 export const OptionContext = React.createContext();
 
@@ -59,25 +59,20 @@ export class OptionProvider extends React.Component {
           return option;
         });
 
+        const selectedIds = optionsWithChecked
+          .filter((option) => option.checked)
+          .map((option) => option.id);
+
+        setCookie(name, selectedIds);
         this.setState({ [name]: optionsWithChecked });
       }
     }
   };
 
-  cookieIdsToArray = (cookieIds) => {
-    if (!cookieIds) {
-      return [];
-    }
-
-    return cookieIds.split(".").map((id) => parseInt(id));
-  };
-
   componentDidMount() {
     const { categories, sites } = this.props;
-    const siteIdsFromCookie = this.cookieIdsToArray(getCookie("sites"));
-    const categoryIdsFromCookie = this.cookieIdsToArray(
-      getCookie("categories")
-    );
+    const siteIdsFromCookie = cookieListToArray(getCookie("sites"));
+    const categoryIdsFromCookie = cookieListToArray(getCookie("categories"));
 
     this.setCheckedOptions("categories", categories, categoryIdsFromCookie);
     this.setCheckedOptions("sites", sites, siteIdsFromCookie);

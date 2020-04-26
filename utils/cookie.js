@@ -11,3 +11,11 @@ export function setCookie(name, value) {
 
   document.cookie = `${name}=${cookieValue}`;
 }
+
+export function cookieListToArray(cookieList) {
+  if (!cookieList) {
+    return [];
+  }
+
+  return cookieList.split(".").map((item) => parseInt(item));
+}

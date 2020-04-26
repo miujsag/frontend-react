@@ -24,16 +24,16 @@
 
 .sub-header {
   top: 66px;
-  background: #E8EAF1;
-  border-bottom: 2px solid #D8D8D8;
+  background: #e8eaf1;
+  border-bottom: 2px solid #d8d8d8;
   padding-left: 0;
 }
 
 .aside-toggle {
   height: 66px;
   width: 200px;
-  background: #0E1530;
-  border-bottom: 2px solid #D8D8D8;
+  background: #0e1530;
+  border-bottom: 2px solid #d8d8d8;
   color: white;
   font-size: 14px;
   font-weight: bold;
@@ -54,11 +54,11 @@
 }
 
 .categories .checkbox-button label {
-  border: 2px solid #DADADA;
+  border: 2px solid #dadada;
 }
 
 .categories .checkbox-button input[type="checkbox"]:checked + label {
-  border: 2px solid #ED4568;
+  border: 2px solid #ed4568;
 }
 
 .menu-button,
@@ -99,7 +99,7 @@
 }
 
 .calendar .event {
-  color: #ED4568;
+  color: #ed4568;
   font-weight: bold;
 }
 
@@ -134,7 +134,7 @@
   margin: 0 20px;
 }
 
-.search-form input {
+.header-search-form input {
   width: 100%;
   max-width: 355px;
   height: 36px;
@@ -144,7 +144,7 @@
   padding: 0 10px;
 }
 
-.search-form button {
+.header-search-form button {
   display: block;
   width: 135px;
   height: 36px;
@@ -167,8 +167,8 @@
 }
 
 .toggle-categories.active {
-  background: #ED4568;
-  border-color: #ED4568;
+  background: #ed4568;
+  border-color: #ed4568;
   color: white;
 }
 
@@ -186,12 +186,12 @@
     width: 50px;
   }
 
-  .search-form input {
+  .header-search-form input {
     width: 0;
     height: 0;
   }
 
-  .search-form button {
+  .header-search-form button {
     width: 25px;
     height: 25px;
   }
