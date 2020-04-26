@@ -1,53 +1,86 @@
 import React from "react";
+import { getCookie, setCookie } from "../utils/cookie";
 
 export const OptionContext = React.createContext();
 
 export class OptionProvider extends React.Component {
   state = {
     categories: [],
-    sites: []
+    sites: [],
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const { name, value } = event.target;
+
     const options = [...this.state[name]];
-    const index = options.findIndex(option => option.id === parseInt(value));
+    const index = options.findIndex((option) => option.id === parseInt(value));
 
     options[index].checked = !options[index].checked;
 
+    const selectedIds = options
+      .filter((option) => option.checked)
+      .map((option) => option.id);
+
+    setCookie(name, selectedIds);
     this.setState({ [name]: options });
   };
 
-  toggleAll = event => {
+  toggleAll = (event) => {
     const { value } = event.target;
     const options = this.state[value];
-    const isAllChecked = options.every(option => option.checked === true);
-    const toggledOptions = options.map(option => ({
+    const isAllChecked = options.every((option) => option.checked === true);
+    const toggledOptions = options.map((option) => ({
       ...option,
-      checked: !isAllChecked
+      checked: !isAllChecked,
     }));
 
+    const ids = toggledOptions.map((option) => option.id);
+
+    setCookie(value, ids);
     this.setState({
-      [value]: toggledOptions
+      [value]: toggledOptions,
     });
   };
 
-  setCheckedOptions = (name, options) => {
+  setCheckedOptions = (name, options, cookieIds) => {
     if (options && options.length > 0) {
-      const optionsWithChecked = options.map(function(option) {
-        option.checked = true;
+      if (cookieIds && cookieIds.length > 0) {
+        const optionsWithChecked = options.map(function (option) {
+          option.checked = cookieIds.includes(option.id);
 
-        return option;
-      });
+          return option;
+        });
 
-      this.setState({ [name]: optionsWithChecked });
+        this.setState({ [name]: optionsWithChecked });
+      } else {
+        const optionsWithChecked = options.map(function (option) {
+          option.checked = true;
+
+          return option;
+        });
+
+        this.setState({ [name]: optionsWithChecked });
+      }
     }
+  };
+
+  cookieIdsToArray = (cookieIds) => {
+    if (!cookieIds) {
+      return [];
+    }
+
+    return cookieIds.split(".").map((id) => parseInt(id));
   };
 
   componentDidMount() {
     const { categories, sites } = this.props;
-    this.setCheckedOptions("categories", categories);
-    this.setCheckedOptions("sites", sites);
+    const siteIdsFromCookie = this.cookieIdsToArray(getCookie("sites"));
+    const categoryIdsFromCookie = this.cookieIdsToArray(
+      getCookie("categories")
+    );
+
+    this.setCheckedOptions("categories", categories, categoryIdsFromCookie);
+    this.setCheckedOptions("sites", sites, siteIdsFromCookie);
   }
 
   render() {
@@ -56,7 +89,7 @@ export class OptionProvider extends React.Component {
         value={{
           state: this.state,
           handleChange: this.handleChange,
-          toggleAll: this.toggleAll
+          toggleAll: this.toggleAll,
         }}
       >
         {this.props.children}
