@@ -4,6 +4,7 @@ import "./index.css";
 import { OptionContext, OptionProvider } from "../context/OptionContext";
 import { WidgetProvider } from "../context/WidgetContext";
 import { SearchProvider } from "../context/SearchContext";
+import Layout from "./_layout";
 import Header from "../components/Header/Header.js";
 import Aside from "../components/Aside/Aside.js";
 import Articles from "../components/Articles/Articles.js";
@@ -11,7 +12,7 @@ import SearchModal from "../components/SearchModal/SearchModal.js";
 
 export default function Index({ sites, categories, weather, rates, day }) {
   return (
-    <div>
+    <Layout>
       <WidgetProvider weather={weather} rates={rates} day={day}>
         <OptionProvider categories={categories} sites={sites}>
           <SearchProvider>
@@ -21,7 +22,7 @@ export default function Index({ sites, categories, weather, rates, day }) {
           <div className="inline">
             <Aside />
             <OptionContext.Consumer>
-              {context => (
+              {(context) => (
                 <Articles
                   context={context}
                   categories={context.categories}
@@ -32,7 +33,7 @@ export default function Index({ sites, categories, weather, rates, day }) {
           </div>
         </OptionProvider>
       </WidgetProvider>
-    </div>
+    </Layout>
   );
 }
 
@@ -42,6 +43,6 @@ export async function getStaticProps() {
   const props = await response.json();
   console.log({ props });
   return {
-    props
+    props,
   };
 }
