@@ -4,10 +4,15 @@
   margin: 0 auto 20px;
   background: white;
   border-radius: 15px;
-  -webkit-box-shadow: 1px 1px 5px 0px rgba(102,102,102,0.5);
-  -moz-box-shadow: 1px 1px 5px 0px rgba(102,102,102,0.5);
-  box-shadow: 1px 1px 5px 0px rgba(102,102,102,0.5);
+  -webkit-box-shadow: 1px 1px 5px 0px rgba(102, 102, 102, 0.5);
+  -moz-box-shadow: 1px 1px 5px 0px rgba(102, 102, 102, 0.5);
+  box-shadow: 1px 1px 5px 0px rgba(102, 102, 102, 0.5);
   padding: 30px 60px;
+}
+
+.search-modal .checkbox-button label {
+  border: 2px solid #dadada;
+  margin-right: 10px;
 }
 
 .search-modal .form-group,
@@ -28,7 +33,6 @@
   text-align: center;
 }
 
-
 .search-modal legend span,
 .search-box legend span {
   display: block;
@@ -39,7 +43,6 @@
   font-weight: bold;
 }
 
-
 .search-modal label,
 .search-box label {
   display: block;
@@ -48,7 +51,6 @@
   font-size: 14px;
   font-weight: bold;
 }
-
 
 .search-modal input,
 .search-box input {
@@ -64,18 +66,18 @@
   width: 90px;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button,
 .search-box input[type="number"] {
   appearance: textfield;
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
 }
 
-.search-modal input[name="search"],
-.search-box input[name="search"] {
+.search-modal input[name="query"],
+.search-box input[name="query"] {
   width: 100%;
-  background: url('/images/search.svg') calc(100% - 15px) center no-repeat;
+  background: url("/images/search.svg") calc(100% - 15px) center no-repeat;
 }
 
 .search-modal button[type="submit"],
@@ -87,7 +89,7 @@ input[type=number]::-webkit-outer-spin-button,
   border: 0;
   border-radius: 5px;
   color: white;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   font-weight: bold;
   text-align: center;
@@ -105,7 +107,7 @@ input[type=number]::-webkit-outer-spin-button,
 
 .react-datepicker-wrapper input {
   width: 100%;
-  background: url('/images/calendar.svg') calc(100% - 15px) center no-repeat;
+  background: url("/images/calendar.svg") calc(100% - 15px) center no-repeat;
   cursor: pointer;
 }
 
@@ -128,7 +130,7 @@ input[type=number]::-webkit-outer-spin-button,
   margin-bottom: 20px;
   border-radius: 0;
   padding: 30px 15px;
-  transition: transform .5s;
+  transition: transform 0.5s;
   transform: translate(100%);
 }
 

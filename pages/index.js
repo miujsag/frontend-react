@@ -1,6 +1,7 @@
 import fetch from "isomorphic-unfetch";
 import "./index.css";
 import { OptionContext, OptionProvider } from "../context/OptionContext";
+import { MenuProvider } from "../context/MenuContext";
 import { WidgetProvider } from "../context/WidgetContext";
 import Layout from "./_layout";
 import Header from "../components/Header/Header.js";
@@ -17,14 +18,16 @@ function Index({ sites, categories, weather, rates, day, router }) {
     <Layout>
       <WidgetProvider weather={weather} rates={rates} day={day}>
         <OptionProvider categories={categories} sites={sites}>
-          <Header />
-          <SearchModal />
-          <div className="inline">
-            <Aside />
-            <OptionContext.Consumer>
-              {(context) => <Main {...context} router={router} />}
-            </OptionContext.Consumer>
-          </div>
+          <MenuProvider>
+            <Header />
+            <SearchModal />
+            <div className="inline">
+              <Aside />
+              <OptionContext.Consumer>
+                {(context) => <Main {...context} router={router} />}
+              </OptionContext.Consumer>
+            </div>
+          </MenuProvider>
         </OptionProvider>
       </WidgetProvider>
     </Layout>

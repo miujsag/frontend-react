@@ -1,29 +1,24 @@
-import React from "react";
+import { useContext } from "react";
 import { WidgetContext } from "../../context/WidgetContext";
+import { MenuContext } from "../../context/MenuContext";
 import Day from "../widgets/Day/Day.js";
 import Weather from "../widgets/Weather/Weather.js";
 import Rates from "../widgets/Rates/Rates.js";
 import Categories from "../Categories/Categories.js";
 import "./Header.css";
 
-export default function Header({
-  isMobileMenuOpen,
-  handleInputChange,
-  toggleMobileMenu,
-  toggleMobileSearch,
-  toggleSidebar,
-  isSearchPage,
-}) {
+export default function Header({ handleInputChange, isSearchPage }) {
+  const menuContext = useContext(MenuContext);
+  const widgetContext = useContext(WidgetContext);
+
   return (
     <header>
       <div className="main-header inline">
         <button
           type="button"
-          name="open-menu"
-          className={`mobile-show menu-button ${
-            isMobileMenuOpen ? " active" : ""
-          }`}
-          onClick={toggleMobileMenu}
+          name="isMobileSideBar"
+          className="mobile-show menu-button"
+          onClick={menuContext.toggleMobileSideBar}
         >
           <svg
             width="24"
@@ -55,6 +50,33 @@ export default function Header({
         </button>
         <h1>
           <a href="/" aria-label="Főoldal">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22.34"
+              height="14.85"
+              className="mobile-show"
+              version="1.1"
+              viewBox="0 0 22.34 14.85"
+            >
+              <g data-name="Layer 2">
+                <g data-name="Layer 1">
+                  <g>
+                    <g>
+                      <path
+                        fill="#ED4568"
+                        d="M7.49 4.95L4.95 4.95 4.95 12.32 4.95 14.85 7.49 14.85 14.85 14.85 17.39 14.85 17.39 4.95 14.85 4.95 14.85 12.32 7.49 12.32z"
+                        className="cls-1"
+                      ></path>
+                      <path
+                        fill="#ED4568"
+                        d="M9.9 0L2.53 0 0 0 0 9.9 2.53 9.9 2.53 2.53 9.9 2.53 9.9 9.9 12.44 9.9 12.44 2.53 19.8 2.53 19.8 9.9 22.34 9.9 22.34 2.53 22.34 0 19.8 0 12.44 0z"
+                        className="cls-1"
+                      ></path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
             <svg
               className="mobile-hide"
               xmlns="http://www.w3.org/2000/svg"
@@ -112,9 +134,9 @@ export default function Header({
         </h1>
         <button
           type="button"
+          name="isSearch"
           className="mobile-show mobile-search-button"
-          name="open-search"
-          onClick={toggleMobileSearch}
+          onClick={menuContext.toggleSearch}
         >
           keresés
           <svg
@@ -136,17 +158,11 @@ export default function Header({
           </svg>
         </button>
         <div className="widgets inline mobile-hide">
-          <WidgetContext.Consumer>
-            {(context) => (
-              <React.Fragment>
-                <Day day={context.day} />
-                <div className="divider"></div>
-                <Weather weather={context.weather} />
-                <div className="divider"></div>
-                <Rates rates={context.rates} />
-              </React.Fragment>
-            )}
-          </WidgetContext.Consumer>
+          <Day day={widgetContext.day} />
+          <div className="divider"></div>
+          <Weather weather={widgetContext.weather} />
+          <div className="divider"></div>
+          <Rates rates={widgetContext.rates} />
         </div>
       </div>
       <div className="sub-header inline">
@@ -154,8 +170,8 @@ export default function Header({
           <button
             className="aside-toggle"
             type="button"
-            name="toggle-news-sources"
-            onClick={toggleSidebar}
+            name="isSidebar"
+            onClick={menuContext.toggleSideBar}
           >
             Hírek forrásai
             <svg

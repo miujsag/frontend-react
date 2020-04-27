@@ -36,7 +36,7 @@ export default function SearchForm({
         <label>Dátum szerint</label>
         <div className="inline">
           <DatePicker
-            selected={from}
+            selected={new Date(from)}
             onChange={(value) => handleDateChange("from", value)}
             dateFormat="yyyy-MM-dd"
             maxDate={new Date()}
@@ -44,7 +44,7 @@ export default function SearchForm({
             calendarClassName="date-input"
           />
           <DatePicker
-            selected={until}
+            selected={new Date(until)}
             onChange={(value) => handleDateChange("until", value)}
             dateFormat="yyyy-MM-dd"
             maxDate={new Date()}

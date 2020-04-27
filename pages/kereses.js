@@ -2,6 +2,7 @@ import fetch from "isomorphic-unfetch";
 import { withRouter } from "next/router";
 import "./index.css";
 import { OptionContext, OptionProvider } from "../context/OptionContext";
+import { MenuProvider } from "../context/MenuContext";
 import { WidgetProvider } from "../context/WidgetContext";
 import Layout from "./_layout";
 import Header from "../components/Header/Header.js";
@@ -17,16 +18,18 @@ function Search({ sites, categories, weather, rates, day, router }) {
     <Layout>
       <WidgetProvider weather={weather} rates={rates} day={day}>
         <OptionProvider categories={categories} sites={sites}>
-          <Header isSearchPage={true} />
-          <SearchModal />
-          <div className="inline">
-            <Aside />
-            <OptionContext.Consumer>
-              {(context) => (
-                <Main {...context} isSearch={true} router={router} />
-              )}
-            </OptionContext.Consumer>
-          </div>
+          <MenuProvider>
+            <Header isSearchPage={true} />
+            <SearchModal />
+            <div className="inline">
+              <Aside />
+              <OptionContext.Consumer>
+                {(context) => (
+                  <Main {...context} isSearch={true} router={router} />
+                )}
+              </OptionContext.Consumer>
+            </div>
+          </MenuProvider>
         </OptionProvider>
       </WidgetProvider>
     </Layout>
