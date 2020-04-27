@@ -8,10 +8,11 @@ import Aside from "../components/Aside/Aside.js";
 import SearchModal from "../components/SearchModal/SearchModal.js";
 import Main from "../components/Main/Main.js";
 import getConfig from "next/config";
+import { withRouter } from "next/router";
 
 const { publicRuntimeConfig } = getConfig();
 
-export default function Index({ sites, categories, weather, rates, day }) {
+function Index({ sites, categories, weather, rates, day, router }) {
   return (
     <Layout>
       <WidgetProvider weather={weather} rates={rates} day={day}>
@@ -21,7 +22,7 @@ export default function Index({ sites, categories, weather, rates, day }) {
           <div className="inline">
             <Aside />
             <OptionContext.Consumer>
-              {(context) => <Main {...context} />}
+              {(context) => <Main {...context} router={router} />}
             </OptionContext.Consumer>
           </div>
         </OptionProvider>
@@ -38,3 +39,5 @@ export async function getStaticProps() {
     props,
   };
 }
+
+export default withRouter(Index);

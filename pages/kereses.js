@@ -1,4 +1,5 @@
 import fetch from "isomorphic-unfetch";
+import { withRouter } from "next/router";
 import "./index.css";
 import { OptionContext, OptionProvider } from "../context/OptionContext";
 import { WidgetProvider } from "../context/WidgetContext";
@@ -11,7 +12,7 @@ import getConfig from "next/config";
 
 const { publicRuntimeConfig } = getConfig();
 
-export default function Search({ sites, categories, weather, rates, day }) {
+function Search({ sites, categories, weather, rates, day, router }) {
   return (
     <Layout>
       <WidgetProvider weather={weather} rates={rates} day={day}>
@@ -21,7 +22,9 @@ export default function Search({ sites, categories, weather, rates, day }) {
           <div className="inline">
             <Aside />
             <OptionContext.Consumer>
-              {(context) => <Main {...context} isSearch={true} />}
+              {(context) => (
+                <Main {...context} isSearch={true} router={router} />
+              )}
             </OptionContext.Consumer>
           </div>
         </OptionProvider>
@@ -38,3 +41,5 @@ export async function getStaticProps() {
     props,
   };
 }
+
+export default withRouter(Search);

@@ -15,33 +15,20 @@ export default class Main extends Component {
     articles: null,
     isMore: false,
     isLoading: false,
-    search: {
-      from: getLastWeeksDate(),
-      until: getCurrentDate(),
-      query: "",
-      order: "relevance",
-      skip: 0,
-      total: 0,
-      didSearch: false,
-    },
+    from: getLastWeeksDate(),
+    until: getCurrentDate(),
+    query: "",
+    order: "relevance",
+    skip: 0,
+    total: 0,
+    didSearch: false,
+    lastArticlesDateTime: new Date(),
   };
 
   getCheckedIds(options) {
     return options
       .filter((option) => option.checked)
       .map((option) => option.id);
-  }
-
-  getLastArticlesDateTime() {
-    const { articles } = this.state;
-
-    if (articles && articles.length > 1) {
-      const lastArticle = articles[articles.length - 1];
-
-      return lastArticle.publishedAt;
-    } else {
-      return new Date();
-    }
   }
 
   handleLoadMore = () => {
@@ -59,9 +46,8 @@ export default class Main extends Component {
 
     const categoryIds = this.getCheckedIds(this.props.state.categories);
     const siteIds = this.getCheckedIds(this.props.state.sites);
-    const lastArticlesDateTime = this.getLastArticlesDateTime();
 
-    const until = isLoadMore ? lastArticlesDateTime : "";
+    const until = isLoadMore ? this.state.lastArticlesDateTime : "";
 
     const response = await fetch(
       `${publicRuntimeConfig.API}/articles?categories=${categoryIds.join(
@@ -74,17 +60,24 @@ export default class Main extends Component {
       });
 
       const { articles, isMore } = await response.json();
+      const lastArticlesDateTime =
+        articles && articles.length
+          ? articles[articles.length - 1].publishedAt
+          : new Date();
 
       if (isLoadMore) {
         const oldArticles = [...this.state.articles];
+
         this.setState({
           isMore,
+          lastArticlesDateTime,
           articles: [...oldArticles, ...articles],
         });
       } else {
         this.setState({
           articles,
           isMore,
+          lastArticlesDateTime,
         });
       }
     } else {
@@ -99,14 +92,11 @@ export default class Main extends Component {
   };
 
   handleChange = (event) => {
-    const { search } = this.state;
     const { name, value } = event.target;
-
-    search[name] = value;
 
     this.setState(
       {
-        search,
+        [name]: value,
       },
       () => {
         if (name !== "query") {
@@ -117,13 +107,9 @@ export default class Main extends Component {
   };
 
   handleDateChange = (name, value) => {
-    const { search } = this.state;
-
-    search[name] = value;
-
     this.setState(
       {
-        search,
+        [name]: value,
       },
       () => this.search()
     );
@@ -136,8 +122,7 @@ export default class Main extends Component {
   };
 
   search = async (isLoadMore = false) => {
-    const { search } = this.state;
-    const { from, until, query, order, skip } = search;
+    const { from, until, query, order, skip } = this.state;
     const newSkipValue = isLoadMore ? skip + 20 : 0;
 
     if (!query) {
@@ -162,30 +147,26 @@ export default class Main extends Component {
     );
 
     if (response.status === 200) {
-      search.skip = newSkipValue;
-
       this.setState({
-        search,
         isError: false,
+        skip: newSkipValue,
       });
 
       const { articles, isMore, total } = await response.json();
 
-      search.didSearch = true;
-      search.total = total;
-
       if (isLoadMore) {
         const oldArticles = [...this.state.articles];
         this.setState({
-          search,
           isMore,
+          didSearch: true,
+          total: total,
           articles: [...oldArticles, ...articles],
         });
       } else {
         this.setState({
-          search,
           articles,
           isMore,
+          didSearch: true,
         });
       }
     } else {
@@ -200,31 +181,43 @@ export default class Main extends Component {
       return;
     }
 
-    const { isSearch } = this.props;
+    const { isSearch, router } = this.props;
     const { categories } = this.props.state;
+    const stateWithParams = {};
 
-    if (categories && categories.length) {
-      if (isSearch) {
-        this.search();
-      } else {
-        this.getArticles();
+    Object.entries(router.query).map(([key, value]) => {
+      stateWithParams[key] = value;
+    });
+
+    this.setState({ ...stateWithParams }, () => {
+      if (categories && categories.length) {
+        isSearch ? this.search() : this.getArticles();
       }
-    }
+    });
   }
 
   render() {
-    const { articles, isMore, search } = this.state;
+    const {
+      articles,
+      isMore,
+      from,
+      until,
+      query,
+      order,
+      total,
+      didSearch,
+    } = this.state;
 
     return (
       <main>
         {this.props.isSearch ? (
           <SearchForm
-            from={search.from}
-            until={search.until}
-            query={search.query}
-            order={search.order}
-            total={search.total}
-            didSearch={search.didSearch}
+            from={from}
+            until={until}
+            query={query}
+            total={total}
+            order={order}
+            didSearch={didSearch}
             handleChange={this.handleChange}
             handleDateChange={this.handleDateChange}
             handleSubmit={this.handleSubmit}
