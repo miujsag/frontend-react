@@ -44,10 +44,11 @@ function toISOString(datetime) {
   return new Date(datetime).toISOString();
 }
 
-function renderHighlights(highlights) {
+function renderHighlights(highlights, articleIndex) {
   if (highlights instanceof Array) {
-    return highlights.map((highlight) => (
+    return highlights.map((highlight, index) => (
       <p
+        key={`article-${articleIndex}-${index}`}
         className="highlight"
         dangerouslySetInnerHTML={{ __html: truncate(highlight) }}
       ></p>
@@ -59,9 +60,9 @@ function renderDescription(description) {
   return <p>{truncate(description)}</p>;
 }
 
-export default function Article(article) {
+export default function Article(article, index) {
   return (
-    <li className="article" key={article.id}>
+    <li className="article" key={article.id || index}>
       <header className="inline">
         <time dateTime={toISOString(article.publishedAt)}>
           {formatDatetime(article.publishedAt)}
@@ -80,7 +81,7 @@ export default function Article(article) {
           </a>
         </h2>
         {article.highlights
-          ? renderHighlights(article.highlights)
+          ? renderHighlights(article.highlights, index)
           : renderDescription(article.description)}
       </div>
       <footer>
