@@ -4,7 +4,7 @@ import { OptionContext } from "../../context/OptionContext";
 import "./Categories.css";
 
 function CategoryList(categories, handleChange) {
-  return categories.map(category => {
+  return categories.map((category) => {
     return (
       <li className="category" key={category.id}>
         <Checkbox
@@ -22,12 +22,12 @@ function CategoryList(categories, handleChange) {
 export default function Categories() {
   return (
     <OptionContext.Consumer>
-      {context => (
+      {(context) => (
         <ul className="categories inline">
           <li>
             <button
               type="button"
-              className="toggle-categories"
+              className="toggle-all"
               value="categories"
               onClick={context.toggleAll}
             >

@@ -155,7 +155,7 @@
   font-weight: bold;
 }
 
-.toggle-categories {
+.toggle-all {
   display: block;
   width: 100px;
   height: 36px;
@@ -166,7 +166,7 @@
   font-weight: bold;
 }
 
-.toggle-categories.active {
+.toggle-all.active {
   background: #ed4568;
   border-color: #ed4568;
   color: white;
@@ -194,5 +194,18 @@
   .header-search-form button {
     width: 25px;
     height: 25px;
+  }
+
+  .categories.inline {
+    flex-direction: column;
+  }
+
+  .categories li {
+    margin-bottom: 12px;
+  }
+
+  .toggle-all {
+    border-color: white;
+    color: white;
   }
 }

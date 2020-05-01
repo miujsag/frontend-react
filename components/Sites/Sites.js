@@ -4,7 +4,7 @@ import { OptionContext } from "../../context/OptionContext";
 import "./Sites.css";
 
 function SiteList(sites, handleChange) {
-  return sites.map(site => {
+  return sites.map((site) => {
     return (
       <li className="site" key={site.id}>
         <Checkbox
@@ -22,12 +22,12 @@ function SiteList(sites, handleChange) {
 export default function Sites() {
   return (
     <OptionContext.Consumer>
-      {context => (
+      {(context) => (
         <ul className="sites checkbox-list">
           <li>
             <button
               type="button"
-              className="toggle-sites"
+              className="toggle-all"
               value="sites"
               onClick={context.toggleAll}
             >
