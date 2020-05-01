@@ -158,14 +158,15 @@ export default class Main extends Component {
         const oldArticles = [...this.state.articles];
         this.setState({
           isMore,
+          total,
           didSearch: true,
-          total: total,
           articles: [...oldArticles, ...articles],
         });
       } else {
         this.setState({
           articles,
           isMore,
+          total,
           didSearch: true,
         });
       }
