@@ -47,7 +47,10 @@ function toISOString(datetime) {
 function renderHighlights(highlights) {
   if (highlights instanceof Array) {
     return highlights.map((highlight) => (
-      <p className="highlight">{truncate(highlight)}</p>
+      <p
+        className="highlight"
+        dangerouslySetInnerHTML={{ __html: truncate(highlight) }}
+      ></p>
     ));
   }
 }
