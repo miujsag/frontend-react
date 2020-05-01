@@ -10,6 +10,7 @@ export default function SearchForm({
   order,
   total,
   didSearch,
+  isLoading,
   handleChange,
   handleDateChange,
   handleSubmit,
@@ -81,7 +82,9 @@ export default function SearchForm({
         </div>
       </div>
       {didSearch ? <p>Találatok száma: {total}</p> : ""}
-      <button type="submit">hírek keresése</button>
+      <button type="submit" disabled={isLoading}>
+        hírek keresése
+      </button>
     </form>
   );
 }

@@ -174,6 +174,10 @@ export default class Main extends Component {
         isError: true,
       });
     }
+
+    this.setState({
+      isLoading: false,
+    });
   };
 
   componentDidUpdate(prevProps) {
@@ -206,6 +210,7 @@ export default class Main extends Component {
       order,
       total,
       didSearch,
+      isLoading,
     } = this.state;
 
     return (
@@ -218,6 +223,7 @@ export default class Main extends Component {
             total={total}
             order={order}
             didSearch={didSearch}
+            isLoading={isLoading}
             handleChange={this.handleChange}
             handleDateChange={this.handleDateChange}
             handleSubmit={this.handleSubmit}
@@ -228,6 +234,7 @@ export default class Main extends Component {
         <Articles
           articles={articles}
           isMore={isMore}
+          isLoading={isLoading}
           handleLoadMore={this.handleLoadMore}
         />
       </main>
