@@ -7,7 +7,7 @@ import Rates from "../widgets/Rates/Rates.js";
 import Categories from "../Categories/Categories.js";
 import "./Header.css";
 
-export default function Header({ handleInputChange, isSearchPage }) {
+export default function Header({ isSearchPage }) {
   const menuContext = useContext(MenuContext);
   const widgetContext = useContext(WidgetContext);
 
@@ -199,7 +199,11 @@ export default function Header({ handleInputChange, isSearchPage }) {
             action="/kereses"
             method="GET"
           >
-            <input type="search" name="query" onChange={handleInputChange} />
+            <input
+              type="search"
+              name="query"
+              placeholder="Milyen hír érdekel?"
+            />
             <button type="submit">keresés</button>
           </form>
         )}
