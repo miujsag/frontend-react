@@ -59,11 +59,14 @@ export default class Main extends Component {
         isError: false,
       });
 
-      const { articles, isMore } = await response.json();
+      const { articles, count } = await response.json();
+
       const lastArticlesDateTime =
         articles && articles.length
           ? articles[articles.length - 1].publishedAt
           : new Date();
+
+      const isMore = count > 20;
 
       if (isLoadMore) {
         const oldArticles = [...this.state.articles];
@@ -152,7 +155,8 @@ export default class Main extends Component {
         skip: newSkipValue,
       });
 
-      const { articles, isMore, total } = await response.json();
+      const { articles, total } = await response.json();
+      const isMore = total > newSkipValue + 20;
 
       if (isLoadMore) {
         const oldArticles = [...this.state.articles];
