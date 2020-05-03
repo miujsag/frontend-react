@@ -64,13 +64,13 @@ export default function Article(article, index) {
   return (
     <li className="article" key={article.id || index}>
       <header className="inline">
-        <time dateTime={toISOString(article.publishedAt)}>
-          {formatDatetime(article.publishedAt)}
+        <time dateTime={toISOString(article.published_at)}>
+          {formatDatetime(article.published_at)}
         </time>
         <img
-          className={`logo-${article.site.slug}`}
-          src={`../../images/sites/${article.site.slug}.png`}
-          alt={`${article.site.name} logó`}
+          className={`logo-${article.Site.slug}`}
+          src={`../../images/sites/${article.Site.slug}.png`}
+          alt={`${article.Site.name} logó`}
         />
       </header>
       <div className="article-body">
@@ -87,7 +87,7 @@ export default function Article(article, index) {
       <footer>
         {article.estimatedReadTime ? (
           <div className="estimated-read-time">
-            <ReadTimeIcon /> {convertToMinutes(article.estimatedReadTime)}
+            <ReadTimeIcon /> {convertToMinutes(article.estimated_read_time)}
           </div>
         ) : (
           ""
