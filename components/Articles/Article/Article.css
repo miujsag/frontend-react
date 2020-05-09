@@ -140,6 +140,26 @@
   height: 25px;
 }
 
+.article .logo-atv {
+  height: 30px;
+}
+
+.article .logo-hirado {
+  height: 30px;
+}
+
+.article .logo-magyar-hang {
+  height: 36px;
+}
+
+.article .logo-vilaggazdasag {
+  height: 17px;
+}
+
+.article .logo-media1 {
+  height: 20px;
+}
+
 @media (max-width: 360px) {
   .article,
   .article-body {
