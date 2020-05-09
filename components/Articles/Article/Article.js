@@ -71,6 +71,7 @@ export default function Article(article, index) {
           className={`logo-${article.Site.slug}`}
           src={`../../images/sites/${article.Site.slug}.png`}
           alt={`${article.Site.name} logó`}
+          title={article.Site.name}
         />
       </header>
       <div className="article-body">
