@@ -63,7 +63,7 @@ export default class Main extends Component {
 
       const lastArticlesDateTime =
         articles && articles.length
-          ? articles[articles.length - 1].publishedAt
+          ? articles[articles.length - 1].published_at
           : new Date();
 
       const isMore = count > 20;
