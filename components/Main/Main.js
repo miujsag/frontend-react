@@ -10,6 +10,10 @@ import {
 
 const { publicRuntimeConfig } = getConfig();
 
+function getCheckedIds(options) {
+  return options.filter((option) => option.checked).map((option) => option.id);
+}
+
 export default class Main extends Component {
   state = {
     articles: null,
@@ -22,14 +26,8 @@ export default class Main extends Component {
     skip: 0,
     total: 0,
     didSearch: false,
-    lastArticlesDateTime: new Date(),
+    lastArticlesDateTime: "",
   };
-
-  getCheckedIds(options) {
-    return options
-      .filter((option) => option.checked)
-      .map((option) => option.id);
-  }
 
   handleLoadMore = () => {
     if (this.props.isSearch) {
@@ -44,15 +42,17 @@ export default class Main extends Component {
       isLoading: true,
     });
 
-    const categoryIds = this.getCheckedIds(this.props.state.categories);
-    const siteIds = this.getCheckedIds(this.props.state.sites);
+    const categoryIds = getCheckedIds(this.props.state.categories).join(",");
+    const siteIds = getCheckedIds(this.props.state.sites).join(",");
 
-    const until = isLoadMore ? this.state.lastArticlesDateTime : "";
+    const until = this.state.lastArticlesDateTime || this.state.until;
+
+    if (isLoadMore) {
+      //history.replaceState({}, "", `?until=${until}`);
+    }
 
     const response = await fetch(
-      `${publicRuntimeConfig.API}/articles?categories=${categoryIds.join(
-        ","
-      )}&sites=${siteIds.join(",")}&until=${until}`
+      `${publicRuntimeConfig.API}/articles?categories=${categoryIds}&sites=${siteIds}&until=${until}`
     );
     if (response.status === 200) {
       this.setState({
@@ -136,17 +136,18 @@ export default class Main extends Component {
       isLoading: true,
     });
 
-    const categoryIds = this.getCheckedIds(this.props.state.categories);
-    const siteIds = this.getCheckedIds(this.props.state.sites);
+    const categoryIds = getCheckedIds(this.props.state.categories);
+    const siteIds = getCheckedIds(this.props.state.sites);
+    const queryParams = `query=${query}&from=${formatForSearch(
+      from
+    )}&until=${formatForSearch(until)}&categories=${categoryIds.join(
+      ","
+    )}&sites=${siteIds.join(",")}&skip=${newSkipValue}&sort=${order}`;
+
+    history.replaceState({}, "", `?${queryParams}`);
 
     const response = await fetch(
-      `${
-        publicRuntimeConfig.API
-      }/articles/search?query=${query}&from=${formatForSearch(
-        from
-      )}&until=${formatForSearch(until)}&categories=${categoryIds.join(
-        ","
-      )}&sites=${siteIds.join(",")}&skip=${newSkipValue}&sort=${order}`
+      `${publicRuntimeConfig.API}/articles/search?${queryParams}`
     );
 
     if (response.status === 200) {
