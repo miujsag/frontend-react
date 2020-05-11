@@ -20,7 +20,6 @@ export default class Main extends Component {
     isMore: false,
     isLoading: false,
     from: getLastWeeksDate(),
-    until: getCurrentDate(),
     query: "",
     order: "relevance",
     skip: 0,
@@ -45,7 +44,7 @@ export default class Main extends Component {
     const categoryIds = getCheckedIds(this.props.state.categories).join(",");
     const siteIds = getCheckedIds(this.props.state.sites).join(",");
 
-    const until = this.state.lastArticlesDateTime || this.state.until;
+    const until = this.state.lastArticlesDateTime || "";
 
     if (isLoadMore) {
       //history.replaceState({}, "", `?until=${until}`);
