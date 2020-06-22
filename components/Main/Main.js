@@ -20,6 +20,7 @@ export default class Main extends Component {
     isMore: false,
     isLoading: false,
     from: getLastWeeksDate(),
+    until: getCurrentDate(),
     query: "",
     order: "relevance",
     skip: 0,
@@ -59,7 +60,6 @@ export default class Main extends Component {
       });
 
       const { articles, count } = await response.json();
-
       const lastArticlesDateTime =
         articles && articles.length
           ? articles[articles.length - 1].published_at
