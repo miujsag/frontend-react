@@ -79,7 +79,6 @@ export default class Main extends Component {
         this.setState({
           articles,
           isMore,
-          lastArticlesDateTime,
         });
       }
     } else {
