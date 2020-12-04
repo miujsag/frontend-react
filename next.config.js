@@ -5,5 +5,5 @@ module.exports = withCSS({
   publicRuntimeConfig: {
     API: process.env.API,
   },
-  exportTrailingSlash: true,
+  trailingSlash: true,
 });
