@@ -1,12 +1,14 @@
 import { Component } from "react";
 import getConfig from "next/config";
 import Articles from "../Articles/Articles.js";
+import Keywords from "../Keywords/Keywords.js";
 import SearchForm from "../SearchForm/SearchForm.js";
 import {
   getCurrentDate,
   getLastWeeksDate,
   formatForSearch,
 } from "../../utils/date";
+import { getCookie, setCookie } from "../../utils/cookie";
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -17,6 +19,8 @@ function getCheckedIds(options) {
 export default class Main extends Component {
   state = {
     articles: null,
+    keywords: [],
+    selectedKeyword: {},
     isMore: false,
     isLoading: false,
     from: getLastWeeksDate(),
@@ -37,34 +41,58 @@ export default class Main extends Component {
     }
   };
 
+  handleKeywordSelect = (keyword) => {
+    const { selectedKeyword } = this.state;
+    console.log("handleKeywordSelect");
+    console.log({ keyword });
+
+    if (selectedKeyword && selectedKeyword.id === keyword.id) {
+      this.setState(
+        {
+          selectedKeyword: {},
+        },
+        () => this.getArticles()
+      );
+    } else {
+      this.setState(
+        {
+          selectedKeyword: keyword,
+        },
+        () => this.getArticles()
+      );
+    }
+  };
+
   getArticles = async (isLoadMore = false) => {
     this.setState({
       isLoading: true,
     });
 
+    const { selectedKeyword } = this.state;
     const categoryIds = getCheckedIds(this.props.state.categories).join(",");
     const siteIds = getCheckedIds(this.props.state.sites).join(",");
-
     const until = this.state.lastArticlesDateTime || "";
 
-    if (isLoadMore) {
-      //history.replaceState({}, "", `?until=${until}`);
-    }
-
     const response = await fetch(
-      `${publicRuntimeConfig.API}/articles?categories=${categoryIds}&sites=${siteIds}&until=${until}`
+      `${
+        publicRuntimeConfig.API
+      }/articles?categories=${categoryIds}&sites=${siteIds}${
+        isLoadMore ? "&until=" + until : "&keywords"
+      }${selectedKeyword.id ? "&keyword=" + selectedKeyword.id : ""}`
     );
+
     if (response.status === 200) {
       this.setState({
         isError: false,
       });
 
-      const { articles, count } = await response.json();
+      const data = await response.json();
+      const { articles, count } = data;
+
       const lastArticlesDateTime =
         articles && articles.length
           ? articles[articles.length - 1].published_at
           : new Date();
-
       const isMore = count > 20;
 
       if (isLoadMore) {
@@ -76,9 +104,13 @@ export default class Main extends Component {
           articles: [...oldArticles, ...articles],
         });
       } else {
+        const { keywords } = data;
+
         this.setState({
-          articles,
           isMore,
+          articles,
+          keywords,
+          lastArticlesDateTime,
         });
       }
     } else {
@@ -207,6 +239,8 @@ export default class Main extends Component {
   render() {
     const {
       articles,
+      keywords,
+      selectedKeyword,
       isMore,
       from,
       until,
@@ -235,6 +269,11 @@ export default class Main extends Component {
         ) : (
           ""
         )}
+        <Keywords
+          keywords={keywords}
+          selectedKeyword={selectedKeyword}
+          handleKeywordSelect={this.handleKeywordSelect}
+        />
         <Articles
           articles={articles}
           isMore={isMore}
