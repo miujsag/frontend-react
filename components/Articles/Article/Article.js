@@ -60,22 +60,38 @@ function renderDescription(description) {
   return <p>{truncate(description)}</p>;
 }
 
-export default function Article(article, index) {
+export default function Article(article, index, showImage) {
   return (
     <li className="article" key={article.id || index}>
       <header className="inline">
         <time dateTime={toISOString(article.published_at)}>
           {formatDatetime(article.published_at)}
         </time>
-        <img
-          className={`logo-${article.Site.slug}`}
-          src={`../../images/sites/${article.Site.slug}.png`}
-          alt={`${article.Site.name} logó`}
-          title={article.Site.name}
-        />
+        {article.Category.name}
+        {article.image || !showImage ? (
+          <img
+            className={`logo-${article.Site.slug}`}
+            src={`../../images/sites/${article.Site.slug}.png`}
+            alt={`${article.Site.name} logó`}
+            title={article.Site.name}
+          />
+        ) : (
+          ""
+        )}
       </header>
-      <div className="article-body">
-        <img className="cover" src={article.image} />
+      <div className={`article-body ${!showImage ? "small" : ""}`}>
+        {showImage ? (
+          article.image ? (
+            <img className="cover" src={article.image} />
+          ) : (
+            <img
+              className="cover"
+              src={`../../images/sites/placeholders/${article.Site.slug}.jpg`}
+            />
+          )
+        ) : (
+          ""
+        )}
         <h2>
           <a href={article.url} target="_blank" rel="noopener noreferrer">
             {article.title}
@@ -86,7 +102,7 @@ export default function Article(article, index) {
           : renderDescription(article.description)}
       </div>
       <footer>
-        {article.estimatedReadTime ? (
+        {article.estimated_read_time ? (
           <div className="estimated-read-time">
             <ReadTimeIcon /> {convertToMinutes(article.estimated_read_time)}
           </div>

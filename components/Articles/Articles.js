@@ -8,7 +8,9 @@ export default function Articles({
   handleLoadMore,
 }) {
   const articleList =
-    articles && articles.length > 0 ? articles.map(Article) : [];
+    articles && articles.length > 0
+      ? articles.map((article) => Article(article, true))
+      : [];
 
   return (
     <div>
