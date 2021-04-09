@@ -1,0 +1,46 @@
+.article-details p {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.article-details strong {
+  font-weight: bold;
+}
+
+.article-details li {
+  margin-bottom: 5px;
+}
+
+.article-details h1 {
+  margin-bottom: 15px;
+  font-size: 28px;
+}
+
+.article-details h2 {
+  margin: 25px 0 5px;
+  font-size: 24px;
+}
+
+.article-details h3 {
+  margin: 10px 0 5px;
+  font-size: 18px;
+}
+
+.article-details-reference {
+  margin-bottom: 50px;
+}
+
+.article-details-reference h2 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.article-details-keywords ul {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.article-details-keywords li {
+  margin: 5px;
+}

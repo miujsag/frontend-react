@@ -1,3 +1,11 @@
+.keywords {
+  flex-wrap: wrap;
+}
+
+.keywords button {
+  text-transform: lowercase;
+}
+
 .keywords .active button {
   font-weight: bold;
 }

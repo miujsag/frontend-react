@@ -20,7 +20,7 @@ export default function Keywords({
   handleKeywordSelect,
 }) {
   const fixedKeywordList = fixKeywordList(keywords, selectedKeyword);
-  console.log({ keywords, fixedKeywordList });
+
   return fixedKeywordList ? (
     <ul className="keywords inline">
       {fixedKeywordList.map((keyword) => (

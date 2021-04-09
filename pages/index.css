@@ -206,6 +206,7 @@ button {
 }
 
 main {
+  position: relative;
   width: 100%;
   margin-left: 200px;
   padding: 35px 30px;
