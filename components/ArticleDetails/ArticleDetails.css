@@ -11,6 +11,11 @@
   margin-bottom: 5px;
 }
 
+.article-details li.active {
+  background: red;
+  color: white;
+}
+
 .article-details h1 {
   margin-bottom: 15px;
   font-size: 28px;

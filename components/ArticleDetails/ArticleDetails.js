@@ -102,17 +102,18 @@ function KeywordList({ keywords }) {
 
 export default function ArticleDetails({ id }) {
   const [article, setArticle] = useState("");
-  const [similarArticles, setSimilarArticles] = useState("");
+  const [similarArticles, setSimilarArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4002/articles/22")
+    fetch("http://localhost:4002/articles/222")
       .then((response) => response.json())
-      .then(({ article, similarArticles }) => {
+      .then(function ({ article, similarArticles }) {
         if (article) {
-          console.log(similarArticles);
           setArticle(article);
           setSimilarArticles(similarArticles);
+          setKeywords(article.keyword.map((keyword) => keyword.stem));
         }
       })
       .catch(console.log)
@@ -152,10 +153,28 @@ export default function ArticleDetails({ id }) {
           <ReferenceList references={article.reference} type={"reference"} />
           <ReferenceList references={article.referrer} type={"referrer"} />
           <KeywordList keywords={article.keyword} />
-          <h3>Hasonlo cikkek</h3>
+          <h2>Hasonló cikkek</h2>
           <ul>
             {similarArticles.map((article) => (
-              <li key={`similar-${article.id}`}>{article.title}</li>
+              <li key={`similar-${article.id}`}>
+                <p>
+                  <a href={article.url}>
+                    {article.Site ? `${article.Site.name}: ` : ""}
+                    {article.title}
+                  </a>
+                </p>
+                <ul>
+                  {article.keyword.map((keyword) => (
+                    <li
+                      className={`${
+                        keywords.includes(keyword.stem) ? "active" : ""
+                      }`}
+                    >
+                      {keyword.stem}
+                    </li>
+                  ))}
+                </ul>
+              </li>
             ))}
           </ul>
         </div>
